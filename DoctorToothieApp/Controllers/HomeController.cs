@@ -19,16 +19,17 @@ public class HomeController(ILogger<HomeController> logger, IDbContext dbContext
         return View(outCount);
     }
 
-    public async Task<IActionResult> Visit()
+    public async Task<IActionResult> ScheduleVisit()
     {
         List<Room> outCount = (await dbContext.Rooms.Include(e => e.Parent).ToListAsync()) ?? [];
-        return View("ScheduleVisit", outCount);
+        return View(outCount);
+    }
+    public async Task<IActionResult> ViewVisits()
+    {
+        List<Room> outCount = (await dbContext.Rooms.Include(e => e.Parent).ToListAsync()) ?? [];
+        return View(outCount);
     }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
