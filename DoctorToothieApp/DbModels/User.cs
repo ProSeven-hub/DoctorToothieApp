@@ -4,8 +4,8 @@ namespace DoctorToothieApp.DbModels;
 
 public class User: IdentityUser
 {    
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
+    public string FirstName { get; set; } = default!;
+    public string LastName { get; set; } = default!;
 
 
     public int? EmployeedLocationId { get; set; }
