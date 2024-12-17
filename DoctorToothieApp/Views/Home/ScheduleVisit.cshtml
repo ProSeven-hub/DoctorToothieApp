@@ -13,8 +13,9 @@
     @foreach (var entry in Model)
     {
         <div class="card bg-danger w-25">
+            <img src="../Images/Default.jpeg"/>
+            <p class="">Numer pokoju: @entry.Number</p>
             @entry.Parent.Name @entry.Parent.Address<br />
-            @entry.Number
         </div>
     }
 </div>
