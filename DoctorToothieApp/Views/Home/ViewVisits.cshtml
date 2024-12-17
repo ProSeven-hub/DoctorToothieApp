@@ -1,0 +1,13 @@
+﻿@using DoctorToothieApp.DbModels
+@model List<Room>
+@{
+    ViewData["Title"] = "Odbyte wizyty";
+}
+
+@foreach (var entry in Model)
+{
+    <div>
+        @entry.Parent.Name @entry.Parent.Address<br />
+        @entry.Number
+    </div>
+}
