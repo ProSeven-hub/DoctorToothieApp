@@ -12,11 +12,14 @@
 <div class="d-flex gap-2 flex-wrap">
     @foreach (var entry in Model)
     {
-        <div class="card bg-danger w-25">
-            <img src="../Images/Default.jpeg"/>
-            <p class="">Numer pokoju: @entry.Number</p>
-            @entry.Parent.Name @entry.Parent.Address<br />
-        </div>
+        <a href="https://localhost:7181/">
+            <div class="card bg-danger w-25">
+                <img src="../Images/Default.jpeg" />
+                <p class="">Numer pokoju: @entry.Number</p>
+                @entry.Parent.Name @entry.Parent.Address<br />
+            </div>
+        </a>
+
     }
 </div>
 
