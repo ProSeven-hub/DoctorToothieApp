@@ -4,6 +4,7 @@ using DoctorToothieApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DoctorToothieApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241229191456_buttontest")]
+    partial class buttontest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +46,7 @@ namespace DoctorToothieApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locations", (string)null);
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("DoctorToothieApp.DbModels.ProcedureType", b =>
@@ -67,57 +70,7 @@ namespace DoctorToothieApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProcedureTypes", (string)null);
-                });
-
-            modelBuilder.Entity("DoctorToothieApp.DbModels.Reservation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DoctorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("LocationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProcedureNotes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ProcedureTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RoomId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Stage")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("Time")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
-
-                    b.HasIndex("LocationId");
-
-                    b.HasIndex("PatientId");
-
-                    b.HasIndex("ProcedureTypeId");
-
-                    b.HasIndex("RoomId");
-
-                    b.ToTable("Reservation", (string)null);
+                    b.ToTable("ProcedureTypes");
                 });
 
             modelBuilder.Entity("DoctorToothieApp.DbModels.Room", b =>
@@ -139,7 +92,7 @@ namespace DoctorToothieApp.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Rooms", (string)null);
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("DoctorToothieApp.DbModels.User", b =>
@@ -362,39 +315,6 @@ namespace DoctorToothieApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("DoctorToothieApp.DbModels.Reservation", b =>
-                {
-                    b.HasOne("DoctorToothieApp.DbModels.User", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId");
-
-                    b.HasOne("DoctorToothieApp.DbModels.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
-
-                    b.HasOne("DoctorToothieApp.DbModels.User", "Patient")
-                        .WithMany("Reservations")
-                        .HasForeignKey("PatientId");
-
-                    b.HasOne("DoctorToothieApp.DbModels.ProcedureType", "ProcedureType")
-                        .WithMany()
-                        .HasForeignKey("ProcedureTypeId");
-
-                    b.HasOne("DoctorToothieApp.DbModels.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId");
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("Location");
-
-                    b.Navigation("Patient");
-
-                    b.Navigation("ProcedureType");
-
-                    b.Navigation("Room");
-                });
-
             modelBuilder.Entity("DoctorToothieApp.DbModels.Room", b =>
                 {
                     b.HasOne("DoctorToothieApp.DbModels.Location", "Parent")
@@ -482,8 +402,6 @@ namespace DoctorToothieApp.Migrations
             modelBuilder.Entity("DoctorToothieApp.DbModels.User", b =>
                 {
                     b.Navigation("Children");
-
-                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

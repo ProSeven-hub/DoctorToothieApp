@@ -9,4 +9,7 @@ public interface IDbContext
     DbSet<User> Users { get; }
     DbSet<Room> Rooms { get; }
     DbSet<Location> Locations { get; }
+    DbSet<Reservation> Reservations { get; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

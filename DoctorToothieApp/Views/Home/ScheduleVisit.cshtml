@@ -1,5 +1,6 @@
-﻿@using DoctorToothieApp.DbModels
-@model List<Room>
+﻿@using DoctorToothieApp.Controllers
+@using DoctorToothieApp.DbModels
+@model ScheduleVisitVM
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -9,11 +10,52 @@
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
+@if(Model.InProgress == null)
+{
+    <h2>Zrób nową rezerwację</h2>
+    <a asp-controller="Reserve" asp-action="Location">Nowa</a>
+}
+else
+{
+    <h2>Dokończ rezerwację</h2>
+    @switch(Model.InProgress.Stage)
+    {
+        case ReservationStage.LOCATION:
+            <a asp-controller="Reserve" asp-action="Location">Dokończ</a>
+            break;
+        case ReservationStage.ROOM:
+            <a asp-controller="Reserve" asp-action="Room">Dokończ</a>
+            break;
+        case ReservationStage.PATIENT:
+            <a asp-controller="Reserve" asp-action="Patient">Dokończ</a>
+            break;
+        case ReservationStage.DOCTOR:
+            <a asp-controller="Reserve" asp-action="Doctor">Dokończ</a>
+            break;
+        case ReservationStage.PROCEDURE:
+            <a asp-controller="Reserve" asp-action="Procedure">Dokończ</a>
+            break;
+        case ReservationStage.DATE:
+            <a asp-controller="Reserve" asp-action="Date">Dokończ</a>
+            break;
+    }
+}
+
+
+
+@foreach (var reser in Model.NotInProgress())
+    {
+        <div>
+            @reser.Status
+        </div>
+    }
+
+
 <div class="d-flex gap-2 flex-wrap">
-    @foreach (var entry in Model)
+    @foreach (var entry in Model.Rooms)
     {
         <a href="https://localhost:7181/">
-            <div class="card bg-danger w-25">
+            <div class="card p-4">
                 <img src="../Images/Default.jpeg" />
                 <p class="">Numer pokoju: @entry.Number</p>
                 @entry.Parent.Name @entry.Parent.Address<br />

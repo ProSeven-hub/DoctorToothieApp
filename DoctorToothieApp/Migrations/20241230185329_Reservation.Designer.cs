@@ -4,6 +4,7 @@ using DoctorToothieApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DoctorToothieApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241230185329_Reservation")]
+    partial class Reservation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +46,7 @@ namespace DoctorToothieApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locations", (string)null);
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("DoctorToothieApp.DbModels.ProcedureType", b =>
@@ -67,7 +70,7 @@ namespace DoctorToothieApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProcedureTypes", (string)null);
+                    b.ToTable("ProcedureTypes");
                 });
 
             modelBuilder.Entity("DoctorToothieApp.DbModels.Reservation", b =>
@@ -117,7 +120,7 @@ namespace DoctorToothieApp.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Reservation", (string)null);
+                    b.ToTable("Reservation");
                 });
 
             modelBuilder.Entity("DoctorToothieApp.DbModels.Room", b =>
@@ -139,7 +142,7 @@ namespace DoctorToothieApp.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Rooms", (string)null);
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("DoctorToothieApp.DbModels.User", b =>

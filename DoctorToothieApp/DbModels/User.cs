@@ -15,4 +15,5 @@ public class User: IdentityUser
     public string? ParentId { get; set; }
     public User? Parent { get; set; }
     public IList<User> Children { get; set; } = [];
+    public IList<Reservation> Reservations { get; set; } = [];
 }

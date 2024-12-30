@@ -9,6 +9,8 @@
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
+@using (Html.BeginForm("HandleButtonClick", "Button"))
+
 @foreach(var entry in Model)
 {
     <div>
@@ -16,3 +18,20 @@
         @entry.Number
     </div>
 }
+
+
+    <div>
+        <h2>Wybierz pokój:</h2>
+        <div class="d-flex gap-2 flex-wrap">
+            @foreach (var entry in Model)
+            {
+                <form method="post" action="/Schedule/SaveStageData">
+                    <input type="hidden" name="stage" value="0" />
+                    <input type="hidden" name="data" value="@entry.Number" />
+                    <button type="submit" class="btn btn-primary">
+                        Pokój @entry.Number (@entry.Parent.Name)
+                    </button>
+                </form>
+            }
+        </div>
+    </div>

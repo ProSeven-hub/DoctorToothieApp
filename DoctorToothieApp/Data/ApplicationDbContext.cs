@@ -10,7 +10,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<ProcedureType> ProcedureTypes { get; set; }
     public DbSet<Room> Rooms { get; set; }
     public DbSet<Location> Locations { get; set; }
-
+    public DbSet<Reservation> Reservations { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<User>()
@@ -28,6 +28,27 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .WithMany(e => e.Employees)
             .HasForeignKey(e => e.EmployeedLocationId);
 
+        builder.Entity<User>()
+            .HasMany(e => e.Reservations)
+            .WithOne(e => e.Patient)
+            .HasForeignKey(e => e.PatientId);
+
+        builder.Entity<Reservation>()
+            .HasOne(e => e.Location)
+            .WithMany();
+
+        builder.Entity<Reservation>()
+            .HasOne(e => e.Doctor)
+            .WithMany();
+
+        builder.Entity<Reservation>()
+            .HasOne(e => e.Room)
+            .WithMany();
+
+        builder.Entity<Reservation>()
+            .HasOne(e => e.ProcedureType)
+            .WithMany();
+
         base.OnModelCreating(builder);
     }
 
@@ -35,4 +56,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     {
         base.OnConfiguring(optionsBuilder);
     }
+
+public DbSet<DoctorToothieApp.DbModels.Reservation> Schedule { get; set; } = default!;
 }
