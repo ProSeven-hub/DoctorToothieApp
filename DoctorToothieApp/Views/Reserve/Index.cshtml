@@ -59,6 +59,12 @@ else
                         <div>
                             Operacja: @item.ProcedureType.Title
                         </div>
+                        <div>
+                            Kiedy: @(((DateTime)item.Time!).ToStr())
+                        </div>
+                        <div>
+                            Notatka: @item.ProcedureNotes
+                        </div>
                     </div>
                 </div>
             </div>

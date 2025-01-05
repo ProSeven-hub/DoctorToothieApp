@@ -463,7 +463,7 @@ public class ReserveController(IDbContext context) : Controller
         }
 
         var rev = await GetReservation();
-        rev.Time = vm.Time;
+        rev.Time = vm.Time.ToUniversalTime();
         await context.SaveChangesAsync();
 
         await UpdateReservation(ReservationStage.REVIEW_CLIENT);

@@ -71,7 +71,7 @@ public class AppointmentsController(IDbContext context) : Controller
     {
         var res = await context.Reservations.SingleAsync(e => e.Id == r.Id);
         res.ProcedureNotes = r.ProcedureNotes;
-        res.Time = r.Time;
+        res.Time = ((DateTime)r.Time!).ToUniversalTime();
         res.Stage = ReservationStage.ACCEPTED;
         await context.SaveChangesAsync();
 
