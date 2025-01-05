@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
-using DoctorToothieApp.Data.Extensions;
-using DoctorToothieApp.DbModels;
-using DoctorToothieApp.Interfaces;
+using DoctorToothieApp.Persistence.Models;
+using DoctorToothieApp.Persistence.Extensions;
+using DoctorToothieApp.Persistence.Interfaces;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace DoctorToothieApp.Data;
+namespace DoctorToothieApp.Persistence;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<AppUser>(options), IDbContext
 {

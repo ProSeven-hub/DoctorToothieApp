@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace DoctorToothieApp.DbModels;
+namespace DoctorToothieApp.Persistence.Models;
 
-public enum ReservationStage: int
+public enum ReservationStage : int
 {
     LOCATION, // User
     ROOM, // User
@@ -37,6 +37,6 @@ public class Reservation
     public string? DoctorId { get; set; }
     public ProcedureType? ProcedureType { get; set; }
     public int? ProcedureTypeId { get; set; }
-    public DateTime? Time{ get; set; }
+    public DateTime? Time { get; set; }
     public string? ProcedureNotes { get; set; }
 }

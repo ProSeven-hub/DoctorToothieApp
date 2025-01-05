@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
-using DoctorToothieApp.DbModels;
-using DoctorToothieApp.Interfaces;
 using DoctorToothieApp.Validations;
 using DoctorToothieApp.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +9,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel;
+using DoctorToothieApp.Persistence.Interfaces;
+using DoctorToothieApp.Persistence.Models;
 
 namespace DoctorToothieApp.Controllers;
 

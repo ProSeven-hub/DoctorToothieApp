@@ -1,4 +1,4 @@
-﻿namespace DoctorToothieApp.DbModels;
+﻿namespace DoctorToothieApp.Persistence.Models;
 
 public class Room
 {

@@ -1,7 +1,5 @@
 using System.Diagnostics;
 using System.Security.Claims;
-using DoctorToothieApp.DbModels;
-using DoctorToothieApp.Interfaces;
 using DoctorToothieApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

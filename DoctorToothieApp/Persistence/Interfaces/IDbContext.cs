@@ -1,7 +1,7 @@
-﻿using DoctorToothieApp.DbModels;
+﻿using DoctorToothieApp.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DoctorToothieApp.Interfaces;
+namespace DoctorToothieApp.Persistence.Interfaces;
 
 public interface IDbContext
 {

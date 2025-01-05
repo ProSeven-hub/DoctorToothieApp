@@ -1,6 +1,7 @@
-﻿namespace DoctorToothieApp.DbModels;
+﻿namespace DoctorToothieApp.Persistence.Models;
 
-public class Location { 
+public class Location
+{
 
     public int Id { get; set; }
     public string Name { get; set; } = default!;

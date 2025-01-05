@@ -1,16 +1,17 @@
-using DoctorToothieApp.Data;
-using DoctorToothieApp.DbModels;
-using DoctorToothieApp.Interfaces;
+using DoctorToothieApp.Persistence;
+using DoctorToothieApp.Persistence.Models;
+using DoctorToothieApp.Persistence.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("PostgreSQL") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddScoped<IDbContext,ApplicationDbContext>();
 builder.Services.AddDbContext<ApplicationDbContext>(
-    options => options.UseSqlServer(connectionString)
+    //options => options.UseSqlServer(connectionString)
+    options => options.UseNpgsql(connectionString)
 );
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();

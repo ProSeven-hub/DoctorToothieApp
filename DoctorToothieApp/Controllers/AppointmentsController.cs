@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
-using DoctorToothieApp.DbModels;
-using DoctorToothieApp.Interfaces;
+using DoctorToothieApp.Persistence.Models;
+using DoctorToothieApp.Persistence.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

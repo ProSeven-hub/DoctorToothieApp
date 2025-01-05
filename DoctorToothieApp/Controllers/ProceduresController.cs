@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using DoctorToothieApp.Interfaces;
+using DoctorToothieApp.Persistence.Interfaces;
+using DoctorToothieApp.Persistence.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -55,7 +56,7 @@ public class ProceduresController(IDbContext context) : Controller
             return View(nameof(New), vm);
         }
 
-        context.ProcedureTypes.Add(new DbModels.ProcedureType
+        context.ProcedureTypes.Add(new ProcedureType
         {
             BasePrice = vm.BasePrice,
             Title = vm.Title,

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace DoctorToothieApp.Data.Extensions;
+namespace DoctorToothieApp.Persistence.Extensions;
 
 public static class ModelBuilderExtensionRole
 {

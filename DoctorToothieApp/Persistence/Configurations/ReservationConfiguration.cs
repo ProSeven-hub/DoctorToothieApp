@@ -1,8 +1,8 @@
-﻿using DoctorToothieApp.DbModels;
+﻿using DoctorToothieApp.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DoctorToothieApp.Data.Configurations;
+namespace DoctorToothieApp.Persistence.Configurations;
 
 public class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
 {
