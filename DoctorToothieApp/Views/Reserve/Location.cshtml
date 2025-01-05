@@ -6,20 +6,20 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="LocationPost" asp-mo>
+        <form asp-action="Location" >
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Reservation.Location" class="control-label"></label>
+                <label asp-for="LocationId" class="control-label"></label>
 
-                <select asp-for="Reservation.Location" asp-items="Model.Locations">
+                <select asp-for="LocationId" asp-items="Model.Locations">
                     
                 </select>
 
-                <input asp-for="Reservation.Location" class="form-control" />
-                <span asp-validation-for="Reservation.Location" class="text-danger"></span>
+                <span asp-validation-for="LocationId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <a class="btn btn-danger" asp-action="Cancel">Anuluj</a>
+                <input type="submit" value="Dalej" class="btn btn-primary" />
             </div>
         </form>
     </div>

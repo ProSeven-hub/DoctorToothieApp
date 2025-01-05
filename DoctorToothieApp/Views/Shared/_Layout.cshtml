@@ -4,7 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Doctor Toothie</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+	<link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/lib/bootstrap/css/bootstrap-grid.min.css" rel="stylesheet" />
+	<link href="~/lib/bootstrap/css/bootstrap-reboot.min.css" rel="stylesheet" />
+	<link href="~/lib/bootstrap/css/bootstrap-utilities.min.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DoctorToothieApp.styles.css" asp-append-version="true" />
 </head>
@@ -19,12 +24,46 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ScheduleVisit">Umów wizytę</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ViewVisits">Historia wizyty</a>
-                        </li>
+                        @if (User?.IsInRole("User") == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Reserve" asp-action="Index">Rezerwacje</a>
+                            </li>
+                        }
+                        @if (User?.IsInRole("User") == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Children" asp-action="Index">Rodzina</a>
+                            </li>
+                        }
+                        @if (User?.IsInRole("Doctor") == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Appointments" asp-action="Index">Wizity</a>
+                            </li>
+
+                        }
+                        @if (User?.IsInRole("Admin") == true)
+                        {
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Doctors" asp-action="Index">Doktorzy</a>
+                            </li>
+                        }
+                        @if(User?.IsInRole("Admin") == true)
+                        {
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">Role</a>
+                            </li>
+                        }
+                        @if (User?.IsInRole("Admin") == true)
+                        {
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Procedures" asp-action="Index">Procedury</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -42,8 +81,10 @@
             &copy; 2024 - DoctorToothieApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script src="~/lib/jquery/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

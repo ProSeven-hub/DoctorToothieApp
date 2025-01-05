@@ -43,7 +43,7 @@ namespace DoctorToothieApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locations", (string)null);
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("DoctorToothieApp.DbModels.ProcedureType", b =>
@@ -67,7 +67,7 @@ namespace DoctorToothieApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProcedureTypes", (string)null);
+                    b.ToTable("ProcedureTypes");
                 });
 
             modelBuilder.Entity("DoctorToothieApp.DbModels.Reservation", b =>
@@ -77,6 +77,10 @@ namespace DoctorToothieApp.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedById")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DoctorId")
                         .HasColumnType("nvarchar(450)");
@@ -107,6 +111,8 @@ namespace DoctorToothieApp.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatedById");
+
                     b.HasIndex("DoctorId");
 
                     b.HasIndex("LocationId");
@@ -117,7 +123,7 @@ namespace DoctorToothieApp.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Reservation", (string)null);
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("DoctorToothieApp.DbModels.Room", b =>
@@ -139,7 +145,7 @@ namespace DoctorToothieApp.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Rooms", (string)null);
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("DoctorToothieApp.DbModels.User", b =>
@@ -250,6 +256,29 @@ namespace DoctorToothieApp.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1E2B8D51-DA03-4920-B675-E0504ED8E7FF",
+                            ConcurrencyStamp = "19B13701-0451-412B-B80E-6FD559437F53",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "9F753729-3A0F-4AC0-8130-11E1133A8DF6",
+                            ConcurrencyStamp = "1CA2811D-872D-49AD-8F4B-4364B7D23FBC",
+                            Name = "Doctor",
+                            NormalizedName = "DOCTOR"
+                        },
+                        new
+                        {
+                            Id = "B3CCBED4-1866-4323-A06B-ED7D3BBDB3C4",
+                            ConcurrencyStamp = "27D16A8F-8C32-4F46-BFEE-2CB8A3AA8B10",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -364,6 +393,12 @@ namespace DoctorToothieApp.Migrations
 
             modelBuilder.Entity("DoctorToothieApp.DbModels.Reservation", b =>
                 {
+                    b.HasOne("DoctorToothieApp.DbModels.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DoctorToothieApp.DbModels.User", "Doctor")
                         .WithMany()
                         .HasForeignKey("DoctorId");
@@ -383,6 +418,8 @@ namespace DoctorToothieApp.Migrations
                     b.HasOne("DoctorToothieApp.DbModels.Room", "Room")
                         .WithMany()
                         .HasForeignKey("RoomId");
+
+                    b.Navigation("CreatedBy");
 
                     b.Navigation("Doctor");
 

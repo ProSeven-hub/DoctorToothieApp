@@ -12,13 +12,14 @@ builder.Services.AddScoped<IDbContext,ApplicationDbContext>();
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(connectionString)
 );
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-
-builder.Services.AddDefaultIdentity<User>(
+builder.Services.AddRazorPages();
+builder.Services.AddIdentity<AppUser, IdentityRole>(
     options => options.SignIn.RequireConfirmedAccount = true
 )
-    .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+    .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders().AddApiEndpoints();
 
 builder.Services.AddControllersWithViews();
 

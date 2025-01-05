@@ -1,0 +1,43 @@
+﻿@model List<DoctorToothieApp.DbModels.ProcedureType>
+@{
+}
+
+<a asp-action="New">Nowy typ</a>
+
+<table>
+	<thead>
+		<tr>
+			<th>
+				Procedura
+			</th>
+			<th>
+				Opis
+			</th>
+			<th>
+				Cena
+			</th>
+			<th>
+				Akcje
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var entry in Model)
+		{
+			<tr>
+				<td>
+					@entry.Title
+				</td>
+				<td>
+					@entry.Description
+				</td>
+				<td>
+					@entry.BasePrice
+				</td>
+				<td>
+					<a class="btn btn-danger" asp-action="edit" asp-route-id="@entry.Id">Edit</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

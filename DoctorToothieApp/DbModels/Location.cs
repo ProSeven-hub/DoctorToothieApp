@@ -8,6 +8,6 @@ public class Location {
 
     public string? Image { get; set; } = default!;
     public IList<Room> Rooms { get; set; } = [];
-    public IList<User> Employees { get; set; } = [];
+    public IList<AppUser> Employees { get; set; } = [];
 
 }

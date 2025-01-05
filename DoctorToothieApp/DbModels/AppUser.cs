@@ -2,8 +2,8 @@
 
 namespace DoctorToothieApp.DbModels;
 
-public class User: IdentityUser
-{    
+public class AppUser : IdentityUser
+{
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
 
@@ -13,7 +13,7 @@ public class User: IdentityUser
 
 
     public string? ParentId { get; set; }
-    public User? Parent { get; set; }
-    public IList<User> Children { get; set; } = [];
+    public AppUser? Parent { get; set; }
+    public IList<AppUser> Children { get; set; } = [];
     public IList<Reservation> Reservations { get; set; } = [];
 }

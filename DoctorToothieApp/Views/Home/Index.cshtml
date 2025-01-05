@@ -4,34 +4,12 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
 
-@using (Html.BeginForm("HandleButtonClick", "Button"))
+<h1 class="text-center">DoctorToothie</h1>
+<h2 class="text-center">Zarezerwuj u nas wizytę!</h2>
 
-@foreach(var entry in Model)
-{
-    <div>
-        @entry.Parent.Name @entry.Parent.Address<br/>
-        @entry.Number
-    </div>
-}
-
-
-    <div>
-        <h2>Wybierz pokój:</h2>
-        <div class="d-flex gap-2 flex-wrap">
-            @foreach (var entry in Model)
-            {
-                <form method="post" action="/Schedule/SaveStageData">
-                    <input type="hidden" name="stage" value="0" />
-                    <input type="hidden" name="data" value="@entry.Number" />
-                    <button type="submit" class="btn btn-primary">
-                        Pokój @entry.Number (@entry.Parent.Name)
-                    </button>
-                </form>
-            }
-        </div>
-    </div>
+<p>
+    Mamy dynamiczny system rezerwacji przez stronę w której, rezerwować wizytę w 
+    różnych naszych lokalizacjach, preferowany pokój, doktor i dzień.
+    Oraz przewidywany koszt operacji, który możę się okazać inny we względu na czynniki w pracy.
+</p>
