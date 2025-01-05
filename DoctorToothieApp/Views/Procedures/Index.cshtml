@@ -7,16 +7,16 @@
 <table>
 	<thead>
 		<tr>
-			<th>
+			<th class="p-2">
 				Procedura
 			</th>
-			<th>
+			<th class="p-2">
 				Opis
 			</th>
-			<th>
+			<th class="p-2">
 				Cena
 			</th>
-			<th>
+			<th class="p-2">
 				Akcje
 			</th>
 		</tr>
@@ -25,16 +25,16 @@
 		@foreach (var entry in Model)
 		{
 			<tr>
-				<td>
+				<td class="p-2">
 					@entry.Title
 				</td>
-				<td>
+				<td class="p-2">
 					@entry.Description
 				</td>
-				<td>
+				<td class="p-2">
 					@entry.BasePrice
 				</td>
-				<td>
+				<td class="p-2">
 					<a class="btn btn-danger" asp-action="edit" asp-route-id="@entry.Id">Edit</a>
 				</td>
 			</tr>
