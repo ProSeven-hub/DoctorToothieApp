@@ -97,7 +97,7 @@ public class ReserveIndexVM
 
 }
 
-[Authorize]
+[Authorize(Roles = "User")]
 [Controller]
 public class ReserveController(IDbContext context) : Controller
 {

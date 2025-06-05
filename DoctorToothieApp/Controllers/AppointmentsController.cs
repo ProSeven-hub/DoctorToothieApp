@@ -3,6 +3,7 @@ using DoctorToothieApp.Persistence.Models;
 using DoctorToothieApp.Persistence.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DoctorToothieApp.Controllers;
 
@@ -22,6 +23,7 @@ public class AppointmentsIndexVM
         };
     }
 }
+[Authorize(Roles = "Doctor")]
 
 public class AppointmentsController(IDbContext context) : Controller
 {

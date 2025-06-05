@@ -14,7 +14,8 @@
 
                 <div class="form-group mb-3">
                     <label asp-for="Time" class="form-label">Data wizyty</label>
-                    <input asp-for="Time" type="date" class="form-control" />
+                    <input asp-for="Time" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm}"
+                           class="form-control" />
                     <span asp-validation-for="Time" class="text-danger"></span>
                 </div>
 

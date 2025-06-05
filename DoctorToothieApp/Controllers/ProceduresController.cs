@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using DoctorToothieApp.Persistence.Interfaces;
 using DoctorToothieApp.Persistence.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +34,7 @@ public class ProceduresEditVM
     [DisplayName("Cena pod.")]
     public int BasePrice { get; set; }
 }
+[Authorize(Roles = "Admin")]
 
 public class ProceduresController(IDbContext context) : Controller
 {

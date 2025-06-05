@@ -27,7 +27,8 @@
 
     <div class="mb-3">
         <label asp-for="Time" class="form-label"></label>
-        <input asp-for="Time" type="datetime-local" class="form-control" />
+        <input asp-for="Time" asp-format="{0:yyyy-MM-ddTHH:mm}"
+               type="datetime-local" class="form-control" />
         <span asp-validation-for="Time" class="text-danger"></span>
     </div>
 
