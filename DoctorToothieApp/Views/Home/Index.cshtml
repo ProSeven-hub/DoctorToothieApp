@@ -3,12 +3,38 @@
     ViewData["Title"] = "Home Page";
 }
 
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4">DoctorToothie</h1>
+        <h2 class="text-primary">Zarezerwuj u nas wizytę!</h2>
+    </div>
 
-<h1 class="text-center">DoctorToothie</h1>
-<h2 class="text-center">Zarezerwuj u nas wizytę!</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-4">
+                    <p class="lead">
+                        Korzystaj z naszego dynamicznego systemu rezerwacji, aby zarezerwować wizytę w jednej z naszych lokalizacji.
+                        Wybierz preferowany <strong>pokój</strong>, <strong>lekarza</strong>, <strong>termin</strong> oraz zapoznaj się z <strong>przewidywanym kosztem zabiegu</strong>.
+                    </p>
+                    <p class="text-muted">
+                        Pamiętaj, że ostateczna cena może się różnić w zależności od diagnozy i sytuacji w trakcie wizyty.
+                    </p>
 
-<p>
-    Mamy dynamiczny system rezerwacji przez stronę w której, rezerwować wizytę w 
-    różnych naszych lokalizacjach, preferowany pokój, doktor i dzień.
-    Oraz przewidywany koszt operacji, który możę się okazać inny we względu na czynniki w pracy.
-</p>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="text-center mt-4">
+                            <a href="/Reserve" class="btn btn-primary btn-lg">Zarezerwuj wizytę</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning mt-4 text-center" role="alert">
+                            <strong>Uwaga!</strong> Musisz się <a href="/Identity/Account/Login">zalogować</a>, aby zarezerwować wizytę.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

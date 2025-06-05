@@ -1,26 +1,29 @@
 ﻿@model DoctorToothieApp.Controllers.ReserveRoomVM
+
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Wybierz pokój";
 }
-<h2>Wybierz pokój</h2>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Room">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="RoomId" class="control-label"></label>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
 
-                <select asp-for="RoomId" asp-items="Model.Rooms">
-                </select>
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <form asp-action="Room" class="border rounded-4 p-4 shadow-sm bg-light">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-                <span asp-validation-for="RoomId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <a class="btn btn-primary" asp-action="Location">Cofnij</a>
-                <a class="btn btn-danger" asp-action="Cancel">Anuluj</a>
-                <button type="submit" class="btn btn-success">Dalej</button>
-            </div>
-        </form>
+                <div class="form-group mb-3">
+                    <label asp-for="RoomId" class="form-label">Pokój</label>
+                    <select asp-for="RoomId" asp-items="Model.Rooms" class="form-select"></select>
+                    <span asp-validation-for="RoomId" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a class="btn btn-primary" asp-action="Location">Cofnij</a>
+                    <a class="btn btn-danger" asp-action="Cancel">Anuluj</a>
+                    <button type="submit" class="btn btn-success">Dalej</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

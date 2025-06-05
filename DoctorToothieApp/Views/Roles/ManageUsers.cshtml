@@ -1,0 +1,38 @@
+﻿@model DoctorToothieApp.Controllers.RoleUsersVM
+@{
+    ViewData["Title"] = $"Zarządzanie użytkownikami w roli: {Model.RoleName}";
+}
+
+<div class="container mt-5">
+    <h2>Zarządzanie użytkownikami – @Model.RoleName</h2>
+
+    <h4 class="mt-4">Użytkownicy w roli</h4>
+    <ul class="list-group mb-4">
+        @foreach (var user in Model.UsersInRole)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                @user.UserName
+                <form asp-action="RemoveUserFromRole" method="post" class="d-inline">
+                    <input type="hidden" name="userId" value="@user.Id" />
+                    <input type="hidden" name="roleName" value="@Model.RoleName" />
+                    <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+                </form>
+            </li>
+        }
+    </ul>
+
+    <h4>Dodaj użytkownika do roli</h4>
+    <form asp-action="AddUserToRole" method="post" class="d-flex gap-2 mb-5">
+        <select name="userId" class="form-select" required>
+            <option value="">Wybierz użytkownika</option>
+            @foreach (var user in Model.UsersNotInRole)
+            {
+                <option value="@user.Id">@user.UserName</option>
+            }
+        </select>
+        <input type="hidden" name="roleName" value="@Model.RoleName" />
+        <button type="submit" class="btn btn-primary">Dodaj</button>
+    </form>
+
+    <a asp-action="Index" class="btn btn-secondary">← Powrót do listy ról</a>
+</div>

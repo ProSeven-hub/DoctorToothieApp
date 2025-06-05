@@ -1,41 +1,37 @@
 ﻿@model List<AppUser>
 
-<h1>Doktorzy</h1>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Doktorzy</h1>
+        <a asp-action="New" class="btn btn-success">Dodaj doktora</a>
+    </div>
 
-<a asp-action="FixRoles" class="btn btn-primary">Refresh/Fix Roles</a>
-<a asp-action="New" class="btn btn-primary">Dodaj doktora</a>
-
-<table>
-	<thead>
-		<tr>
-			<td class="p-2">
-				Doktor
-			</td>
-			<td class="p-2">
-				Pracuje w
-			</td>
-			<td class="p-2">
-				Akcje
-			</td>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach(var doc in Model)
-		{
-			<tr>
-				<td class="p-2">
-					@doc.FirstName @doc.LastName<br/>
-					@doc.Email
-				</td>
-				<td class="p-2">
-					@doc.EmployeedLocation.Name<br/>
-					@doc.EmployeedLocation.Address
-				</td>
-				<td class="p-2">
-					<a asp-action="Edit" asp-route-id="@doc.Id" class="btn btn-primary">Zmień</a>
-					<a asp-action="Remove" asp-route-id="@doc.Id" class="btn btn-danger">Usuń</a>
-				</td>
-			</tr>
-		}
-	</tbody>
-</table>
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th class="p-3">Doktor</th>
+                <th class="p-3">Pracuje w</th>
+                <th class="p-3">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var doc in Model)
+            {
+                <tr>
+                    <td class="p-3">
+                        <strong>@doc.FirstName @doc.LastName</strong><br />
+                        <span class="text-muted">@doc.Email</span>
+                    </td>
+                    <td class="p-3">
+                        @doc.EmployeedLocation?.Name<br />
+                        <span class="text-muted">@doc.EmployeedLocation?.Address</span>
+                    </td>
+                    <td class="p-3">
+                        <a asp-action="Edit" asp-route-id="@doc.Id" class="btn btn-sm btn-primary me-2">Zmień</a>
+                        <a asp-action="Remove" asp-route-id="@doc.Id" class="btn btn-sm btn-danger" onclick="return confirm('Czy na pewno chcesz usunąć tego doktora?');">Usuń</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,38 +1,48 @@
-﻿@model List<DoctorToothieApp.Controllers.UserEntry>
+﻿@model List<DoctorToothieApp.Controllers.RoleVM>
 @{
+    ViewData["Title"] = "Role";
 }
 
-<h2>Role</h2>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Role</h1>
 
-<table >
-	<thead>
-		<tr>
-			<th class="p-2">
-				User
-			</th>
-			<th class="p-2">
-				Role
-			</th>
-			<th class="p-2">
-				Akcje
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach(var entry in Model)
-		{
-			<tr>
-				<td class="p-2">
-					@entry.User.FirstName @entry.User.LastName<br/>
-					@entry.User.Email
-				</td>
-				<td class="p-2">
-					@string.Join(",", entry.Roles)
-				</td>
-				<td class="p-2">
-					<a class="btn btn-danger" asp-action="edituser" asp-route-user="@entry.User.Id">Edit</a>
-				</td>
-			</tr>
-		}
-	</tbody>
-</table>
+        <form asp-action="Add" method="post" class="d-flex gap-2">
+            <input type="text" name="roleName" class="form-control" placeholder="Nowa rola" required />
+            <button type="submit" class="btn btn-success">Dodaj rolę</button>
+        </form>
+    </div>
+
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th class="p-3">Nazwa roli</th>
+                <th class="p-3">Liczba użytkowników</th>
+                <th class="p-3">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model)
+            {
+                <tr>
+                    <td class="p-3"><strong>@role.Name</strong></td>
+                    <td class="p-3">@role.UsersCount</td>
+                    <td class="p-3">
+                        <a asp-action="ManageUsers" asp-route-roleName="@role.Name" class="btn btn-sm btn-primary me-2">Zarządzaj użytkownikami</a>
+
+                        @if (role.Name.ToLower() != "admin")
+                        {
+                            <form asp-action="Delete" asp-route-id="@role.Id" method="post" class="d-inline" onsubmit="return confirm('Czy na pewno chcesz usunąć tę rolę wraz z przypisaniami?');">
+                                <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Nie można usunąć</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

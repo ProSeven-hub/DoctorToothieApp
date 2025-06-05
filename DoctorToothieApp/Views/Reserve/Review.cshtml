@@ -1,29 +1,39 @@
-﻿
-@model Reservation
+﻿@model Reservation
+
 @{
+    ViewData["Title"] = "Potwierdź rezerwację";
 }
-<h2>Potwierdź czy dane są prawidłowe</h2>
 
-<div>
-	@Model.Patient.FirstName
-</div>
-<div>
-	@Model.Location.Name
-</div>
-<div>
-	@Model.Room.Number
-</div>
-<div>
-	@Model.Doctor.FirstName
-</div>
-<div>
-	@Model.ProcedureType.Title
-</div>
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">@ViewData["Title"]</h2>
 
-<div>
-	@(((DateTime)Model.Time!).ToString("yyyy-MM-dd"))
-</div>
+    <div class="card mx-auto" style="max-width: 500px;">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-4">Pacjent:</dt>
+                <dd class="col-sm-8">@Model.Patient.FirstName @Model.Patient.LastName</dd>
 
-<a class="btn btn-primary" asp-action="Date">Cofnij</a>
-<a class="btn btn-danger" asp-action="Cancel">Anuluj</a>
-<a class="btn btn-success" asp-action="Reserve">Zarezerwuj</a>
+                <dt class="col-sm-4">Placówka:</dt>
+                <dd class="col-sm-8">@Model.Location.Name</dd>
+
+                <dt class="col-sm-4">Pokój:</dt>
+                <dd class="col-sm-8">@Model.Room.Number</dd>
+
+                <dt class="col-sm-4">Doktor:</dt>
+                <dd class="col-sm-8">@Model.Doctor.FirstName @Model.Doctor.LastName</dd>
+
+                <dt class="col-sm-4">Zabieg:</dt>
+                <dd class="col-sm-8">@Model.ProcedureType.Title</dd>
+
+                <dt class="col-sm-4">Data wizyty:</dt>
+                <dd class="col-sm-8">@(((DateTime)Model.Time!).ToString("yyyy-MM-dd"))</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-center gap-2">
+        <a class="btn btn-primary" asp-action="Date">Cofnij</a>
+        <a class="btn btn-danger" asp-action="Cancel">Anuluj</a>
+        <a class="btn btn-success" asp-action="Reserve">Zarezerwuj</a>
+    </div>
+</div>

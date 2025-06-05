@@ -1,77 +1,57 @@
 ﻿@model DoctorToothieApp.Controllers.AppointmentsIndexVM
 
-<h1 class="text-center">Wizyty</h1>
+<h1 class="text-center my-4">Wizyty</h1>
 
-<div class="d-flex">
-	<div class="flex-grow-1">
-		<h2 class="text-center">Zatwierdzone</h2>
-		<div class="d-grid gap-2 p-2">
-			@foreach (var item in Model.Current)
-			{
-				<div class="card card-body">
+<div class="row gx-4">
+    <div class="col-md-6">
+        <h2 class="text-center mb-3">Zatwierdzone</h2>
+        <div class="d-grid gap-3">
+            @foreach (var item in Model.Current)
+            {
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <p><strong>Pacjent:</strong> @item.Patient.FirstName @item.Patient.LastName</p>
+                        <p><strong>Lokalizacja:</strong> @item.Location.Name - @item.Room.Number</p>
+                        <p><strong>Zabieg:</strong> @item.ProcedureType.Title</p>
+                        <div class="d-flex gap-2">
+                            <a class="btn btn-danger btn-sm" asp-action="Cancel" asp-route-id="@item.Id">Anuluj</a>
+                            <a class="btn btn-danger btn-sm" asp-action="Done" asp-route-id="@item.Id">Zakończ</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 
-					<div>
-						Pacjent: @item.Patient.FirstName @item.Patient.LastName
-					</div>
-					<div>
-						@item.Location.Name - @item.Room.Number
-					</div>
-					<div>
-						Operacja: @item.ProcedureType.Title
-					</div>
-					<div>
-						<a class="btn btn-danger" asp-action="Cancel" asp-route-id="@item.Id">Anuluj</a>
-						<a class="btn btn-danger" asp-action="Done" asp-route-id="@item.Id">Zakończ</a>
-					</div>
-				</div>
-			}
-		</div>
-	</div>
-	<div class="flex-grow-1">
-		<h2 class="text-center">Do akceptacji</h2>
-		<div class="d-grid gap-2 p-2">
-			@foreach (var item in Model.ToAccept)
-			{
-				<div class="card card-body">
-					
-					<div>
-						Pacjent: @item.Patient.FirstName @item.Patient.LastName
-					</div>
-					<div>
-						@item.Location.Name - @item.Room.Number
-					</div>
-					<div>
-						Operacja: @item.ProcedureType.Title
-					</div>
-					<div>
-						<a class="btn btn-primary" asp-action="review" asp-route-id="@item.Id">Review</a>
-					</div>
-
-				</div>
-			}
-		</div>
-		
-	</div>
+    <div class="col-md-6">
+        <h2 class="text-center mb-3">Do akceptacji</h2>
+        <div class="d-grid gap-3">
+            @foreach (var item in Model.ToAccept)
+            {
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <p><strong>Pacjent:</strong> @item.Patient.FirstName @item.Patient.LastName</p>
+                        <p><strong>Lokalizacja:</strong> @item.Location.Name - @item.Room.Number</p>
+                        <p><strong>Zabieg:</strong> @item.ProcedureType.Title</p>
+                        <a class="btn btn-primary btn-sm" asp-action="review" asp-route-id="@item.Id">Review</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>
-<h2 class="text-center">Historyczne</h2>
-<div class="d-grid gap-2 p-2">
-	@foreach (var item in Model.History)
-	{
-		<div class="card card-body">
 
-			<div>
-				Status: @Model.StageToString(item.Stage)
-				</div>
-			<div>
-				Pacjent: @item.Patient.FirstName @item.Patient.LastName
-			</div>
-			<div>
-				@item.Location.Name - @item.Room.Number
-			</div>
-			<div>
-				Operacja: @item.ProcedureType.Title
-			</div>
-
-		</div>
-	}
+<h2 class="text-center my-5">Historyczne</h2>
+<div class="d-grid gap-3 p-2">
+    @foreach (var item in Model.History)
+    {
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <p><strong>Status:</strong> @Model.StageToString(item.Stage)</p>
+                <p><strong>Pacjent:</strong> @item.Patient.FirstName @item.Patient.LastName</p>
+                <p><strong>Lokalizacja:</strong> @item.Location.Name - @item.Room.Number</p>
+                <p><strong>Zabieg:</strong> @item.ProcedureType.Title</p>
+            </div>
+        </div>
+    }
 </div>

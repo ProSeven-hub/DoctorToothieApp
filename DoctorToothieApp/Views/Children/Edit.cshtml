@@ -1,43 +1,49 @@
 ﻿@model DoctorToothieApp.Controllers.ChildrenEditVM
 
-<form asp-action="Edit" autocomplete="off">
-	<input asp-for="Id" />
+<div class="container mt-5">
+    <h2>Edytuj członka rodziny</h2>
 
-	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-	<div class="form-group">
-		<label asp-for="FirstName" class="control-label"></label>
-		<input asp-for="FirstName" autocomplete="off" />
-		<span asp-validation-for="FirstName" class="text-danger"></span>
-	</div>
-	<div class="form-group">
-		<label asp-for="LastName" class="control-label"></label>
-		<input asp-for="LastName" autocomplete="off" />
-		<span asp-validation-for="LastName" class="text-danger"></span>
-	</div>
-	<div class="form-group">
-		<label asp-for="Email" class="control-label"></label>
-		<input asp-for="Email" autocomplete="off" />
-		<span asp-validation-for="Email" class="text-danger"></span>
-	</div>
-	<div class="form-group">
-		<label asp-for="Password" class="control-label"></label>
-		<input asp-for="Password" autocomplete="off" />
-		<span asp-validation-for="Password" class="text-danger"></span>
-	</div>
-	<div class="form-group">
-		<label asp-for="ConfirmPassword" class="control-label"></label>
-		<input asp-for="ConfirmPassword" autocomplete="off" />
-		<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-	</div>
-	<div>
-		<a asp-action="Index" class="btn btn-primary">Cofnij</a>
+    <form asp-action="Edit" autocomplete="off" class="mt-4">
 
-		@if(!string.IsNullOrWhiteSpace(Model.Email))
-		{
-			<a asp-action="Unlock" asp-route-id="@Model.Id" class="btn btn-danger">Unlock</a>
-		}
+        <input asp-for="Id" type="hidden" />
 
-		<button class="btn btn-success" type="submit">Dodaj</button>
-	</div>
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-</form>
+        <div class="form-floating mb-3">
+            <input asp-for="Email" class="form-control" autocomplete="username" placeholder="name@example.com" />
+            <label asp-for="Email">Email</label>
+            <span asp-validation-for="Email" class="text-danger small"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="FirstName" class="form-control" autocomplete="given-name" placeholder="Jan" />
+            <label asp-for="FirstName">Imię</label>
+            <span asp-validation-for="FirstName" class="text-danger small"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="LastName" class="form-control" autocomplete="family-name" placeholder="Nowak" />
+            <label asp-for="LastName">Nazwisko</label>
+            <span asp-validation-for="LastName" class="text-danger small"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="Password" class="form-control" autocomplete="new-password" placeholder="Hasło" />
+            <label asp-for="Password">Hasło</label>
+            <span asp-validation-for="Password" class="text-danger small"></span>
+        </div>
+
+        <div class="form-floating mb-4">
+            <input asp-for="ConfirmPassword" class="form-control" autocomplete="off" placeholder="Potwierdź hasło" />
+            <label asp-for="ConfirmPassword">Potwierdź hasło</label>
+            <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a asp-action="Index" class="btn btn-secondary">Cofnij</a>
+
+            <button type="submit" class="btn btn-success">Zapisz</button>
+        </div>
+
+    </form>
+</div>

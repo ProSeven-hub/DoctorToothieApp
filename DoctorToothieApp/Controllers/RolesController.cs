@@ -7,28 +7,24 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace DoctorToothieApp.Controllers;
 
 
-public class UserEntry
+public class RoleVM
 {
-    public required AppUser User { get; set; }
-    public List<string> Roles { get; set; } = [];
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public int UsersCount { get; set; }
 }
 
-public class RolesEditUserVM
+public class RoleUsersVM
 {
-    [HiddenInput]
-    public required string UserId { get; set; }
-    [ValidateNever]
-    public required List<string> AviableRoles { get; set; }
-
-    [Required(ErrorMessage = "Pole {0} jest wymagane")]
-    [DisplayName("Role")]
-    public List<string> Roles { get; set; } = [];
+    public string RoleName { get; set; }
+    public List<AppUser> UsersInRole { get; set; }
+    public List<AppUser> UsersNotInRole { get; set; }
 }
-
 [Authorize(Roles = "Admin")]
 public class RolesController(IDbContext context,
             RoleManager<IdentityRole> roleManager,
@@ -36,44 +32,89 @@ public class RolesController(IDbContext context,
 {
     public async Task<IActionResult> Index()
     {
-        List<UserEntry> users = (await context.Users.Select(e => new UserEntry { User = e }).ToListAsync()) ?? [];
+        var roles = await roleManager.Roles.ToListAsync();
+        var roleVMs = new List<RoleVM>();
 
-
-        foreach (var user in users)
+        foreach (var role in roles)
         {
-            user.Roles = [.. (await userManager.GetRolesAsync(user.User))];
+            var usersInRole = await userManager.GetUsersInRoleAsync(role.Name);
+            var usersCount = usersInRole.Count();
+
+            roleVMs.Add(new RoleVM
+            {
+                Id = role.Id,
+                Name = role.Name,
+                UsersCount = usersCount
+            });
         }
 
-        return View(users);
-    }
-
-    public async Task<IActionResult> EditUser(string user)
-    {
-        var roles = (await roleManager.Roles.Select(e => e.Name!).ToListAsync()) ?? [];
-
-        return View(new RolesEditUserVM { AviableRoles = roles, UserId = user});
+        return View(roleVMs);
     }
 
     [HttpPost]
-    public async Task<IActionResult> EditUser([FromForm] RolesEditUserVM vm)
+    public async Task<IActionResult> Add(string roleName)
     {
-        if(!ModelState.IsValid)
+        if (!string.IsNullOrWhiteSpace(roleName))
         {
-            vm.AviableRoles = (await roleManager.Roles.Select(e => e.Name!).ToListAsync()) ?? [];
-            return View(nameof(EditUser), vm);
+            await roleManager.CreateAsync(new IdentityRole(roleName));
         }
-
-        var roles = (await roleManager.Roles.Select(e => e.Name!).ToListAsync()) ?? [];
-        var user = await userManager.FindByIdAsync(vm.UserId)!;
-        foreach (var role in roles)
-        {
-            await userManager.RemoveFromRoleAsync(user!, role);
-        }
-        foreach (var role in vm.Roles)
-        {
-            await userManager.AddToRoleAsync(user!, role);
-        }
-        
         return RedirectToAction(nameof(Index));
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(string id)
+    {
+        var role = await roleManager.FindByIdAsync(id);
+        if (role == null || role.Name.ToLower() == "admin") return BadRequest();
+
+        var users = await userManager.GetUsersInRoleAsync(role.Name);
+        foreach (var user in users)
+        {
+            await userManager.RemoveFromRoleAsync(user, role.Name);
+        }
+
+        await roleManager.DeleteAsync(role);
+        return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> ManageUsers(string roleName)
+    {
+        var allUsers = userManager.Users.ToList();
+        var usersInRole = await userManager.GetUsersInRoleAsync(roleName);
+        var usersNotInRole = allUsers.Except(usersInRole).ToList();
+
+        var vm = new RoleUsersVM
+        {
+            RoleName = roleName,
+            UsersInRole = usersInRole.ToList(),
+            UsersNotInRole = usersNotInRole
+        };
+
+        return View(vm);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddUserToRole(string userId, string roleName)
+    {
+        var user = await userManager.FindByIdAsync(userId);
+        if (user != null && await roleManager.RoleExistsAsync(roleName))
+        {
+            await userManager.AddToRoleAsync(user, roleName);
+        }
+
+        return RedirectToAction(nameof(ManageUsers), new { roleName });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> RemoveUserFromRole(string userId, string roleName)
+    {
+        var user = await userManager.FindByIdAsync(userId);
+        if (user != null)
+        {
+            await userManager.RemoveFromRoleAsync(user, roleName);
+        }
+
+        return RedirectToAction(nameof(ManageUsers), new { roleName });
+    }
+
 }

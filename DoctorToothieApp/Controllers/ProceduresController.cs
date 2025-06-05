@@ -99,4 +99,14 @@ public class ProceduresController(IDbContext context) : Controller
 
         return RedirectToAction(nameof(Index));
     }
+    public async Task<IActionResult> Remove(int id)
+    {
+        var procedure = await context.ProcedureTypes.FindAsync(id);
+        if (procedure != null)
+        {
+            context.ProcedureTypes.Remove(procedure);
+        }
+        await context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
 }

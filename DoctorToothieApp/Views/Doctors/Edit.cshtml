@@ -1,24 +1,31 @@
 ﻿@model DoctorToothieApp.Controllers.DoctorsEditVM
 
-<form asp-action="Edit" autocomplete="off">
+<div class="container mt-5">
+    <h2>Edytuj przypisanie lekarza</h2>
 
-	<input asp-for="DoctorId" />
+    <form asp-action="Edit" autocomplete="off" class="mt-4">
 
-	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-	<div>
-		Doctor:<br/>
-		@Model.Doctor.FirstName @Model.Doctor.LastName<br/>
-		@Model.Doctor.Email
-	</div>
-	<div class="form-group">
-		<label asp-for="LocationId" class="control-label"></label>
-		<select asp-for="LocationId" autocomplete="off" asp-items="Model.Locations" ></select>
-		<span asp-validation-for="LocationId" class="text-danger"></span>
-	</div>
+        <input asp-for="DoctorId" type="hidden" />
 
-	<div>
-		<a asp-action="Index" class="btn btn-primary">Anuluj</a>
-		<button class="btn btn-success" type="submit">Zmień</button>
-	</div>
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-</form>
+        <div class="card mb-4 shadow-sm border-0 rounded-3">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Doctor.FirstName @Model.Doctor.LastName</h5>
+                <p class="card-text text-muted mb-0">@Model.Doctor.Email</p>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="LocationId" class="form-label">Lokalizacja</label>
+            <select asp-for="LocationId" asp-items="Model.Locations" class="form-select" autocomplete="off"></select>
+            <span asp-validation-for="LocationId" class="text-danger small"></span>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+            <button type="submit" class="btn btn-success">Zmień</button>
+        </div>
+
+    </form>
+</div>

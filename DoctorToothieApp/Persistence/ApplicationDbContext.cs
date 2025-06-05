@@ -25,7 +25,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .WithMany(e => e.Rooms)
             .HasForeignKey(e => e.ParentId);
 
-        builder.SeedRole();
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

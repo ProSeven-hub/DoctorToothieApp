@@ -1,35 +1,44 @@
-﻿
-@model Reservation
-@{
-}
-<h2>Potwierdź czy dane są prawidłowe</h2>
+﻿@model Reservation
 
-<form asp-action="Accept">
-	<input hidden asp-for="Id"/>
+<h2 class="text-center my-4">Potwierdź czy dane są prawidłowe</h2>
 
-	<div>
-		<div>@Model.Location.Name <br/> @Model.Location.Address</div>
-		<div>W pokoju: @Model.Room.Number</div>
-		<div>Pacjent: @Model.Patient.FirstName @Model.Patient.LastName</div>
-		<div>Operacja: @Model.ProcedureType.Title <br/> @Model.ProcedureType.Description</div>
-	</div>
+<form asp-action="Accept" class="mx-auto" style="max-width: 600px;">
+    <input type="hidden" asp-for="Id" />
 
+    <div class="mb-3">
+        <h5>Lokalizacja</h5>
+        <p>@Model.Location.Name<br />@Model.Location.Address</p>
+    </div>
 
-	<div class="form-control">
-		<label asp-for="Time" class="control-label"></label>
-		<input asp-for="Time" type="datetime-local" />
-		<span asp-validation-for="Time" class="text-danger"></span>
-	</div>
+    <div class="mb-3">
+        <h5>Pokój</h5>
+        <p>@Model.Room.Number</p>
+    </div>
 
-	<div class="form-control">
-		<label asp-for="ProcedureNotes" class="control-label"></label>
-		<textarea asp-for="ProcedureNotes" autocomplete="off" ></textarea>
-		<span asp-validation-for="ProcedureNotes" class="text-danger"></span>
-	</div>
+    <div class="mb-3">
+        <h5>Pacjent</h5>
+        <p>@Model.Patient.FirstName @Model.Patient.LastName</p>
+    </div>
 
-	<div>
-		<a class="btn btn-danger" asp-action="Cancel" asp-route-id="@Model.Id">Anuluj</a>
-		<button type="submit" class="btn btn-success" >Akceptuj</button>
-	</div>
+    <div class="mb-3">
+        <h5>Zabieg</h5>
+        <p><strong>@Model.ProcedureType.Title</strong><br />@Model.ProcedureType.Description</p>
+    </div>
 
+    <div class="mb-3">
+        <label asp-for="Time" class="form-label"></label>
+        <input asp-for="Time" type="datetime-local" class="form-control" />
+        <span asp-validation-for="Time" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ProcedureNotes" class="form-label"></label>
+        <textarea asp-for="ProcedureNotes" class="form-control" autocomplete="off"></textarea>
+        <span asp-validation-for="ProcedureNotes" class="text-danger"></span>
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <a class="btn btn-danger" asp-action="Cancel" asp-route-id="@Model.Id">Anuluj</a>
+        <button type="submit" class="btn btn-success">Akceptuj</button>
+    </div>
 </form>

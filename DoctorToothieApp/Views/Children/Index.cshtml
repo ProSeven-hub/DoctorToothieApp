@@ -1,19 +1,38 @@
 ﻿@model List<AppUser>
 
-<h1>Członkowie rodziny</h1>
 
-<a class="btn btn-primary" asp-action="New">Dodaj członka</a>
 
-<div class="d-flex flex-wrap" >
-	@foreach(var child in Model)
-	{
-		<div class="card">
-			<div class="card-body">
-				@child.FirstName @child.LastName<br/>
-				@child.Email<br/>
-				<a class="btn btn-primary" asp-action="edit" asp-route-id="@child.Id">Edytuj</a>
-			</div>
-			
-		</div>
-	}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Członkowie rodziny</h1>
+        <a asp-action="New" class="btn btn-success">Dodaj członka</a>
+    </div>
+
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th class="p-3">Imię</th>
+                <th class="p-3">Nazwisko</th>
+                <th class="p-3">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var doc in Model)
+            {
+                <tr>
+                    <td class="p-3">
+                        <strong>@doc.FirstName</strong>
+                    </td>
+                    <td class="p-3">
+                        <strong>@doc.LastName</strong>
+                    </td>
+                    <td class="p-3">
+                        <a asp-action="Edit" asp-route-id="@doc.Id" class="btn btn-sm btn-primary me-2">Zmień</a>
+                        <a asp-action="Remove" asp-route-id="@doc.Id" class="btn btn-sm btn-danger" onclick="return confirm('Czy na pewno chcesz usunąć tego członka rodziny?');">Usuń</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

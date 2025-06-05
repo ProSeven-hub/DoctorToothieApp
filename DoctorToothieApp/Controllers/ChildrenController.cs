@@ -198,26 +198,6 @@ public class ChildrenController(IDbContext context, UserManager<AppUser> userMan
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> Unlock(string id)
-    {
-        var child = await userManager.FindByIdAsync(id);
-        if (child == null || child.ParentId != UserID)
-        {
-            return RedirectToAction(nameof(Index));
-        }
 
-        if (string.IsNullOrWhiteSpace(child.Email))
-        {
-            return RedirectToAction(nameof(Edit), new             {
-                id = id,
-            });
-        }
-
-
-        await userManager.SetLockoutEnabledAsync(child, false);
-
-
-        return RedirectToAction(nameof(Index));
-    }
 
 }

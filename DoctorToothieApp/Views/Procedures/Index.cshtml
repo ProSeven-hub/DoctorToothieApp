@@ -2,42 +2,41 @@
 @{
 }
 
-<a asp-action="New">Nowy typ</a>
 
-<table>
-	<thead>
-		<tr>
-			<th class="p-2">
-				Procedura
-			</th>
-			<th class="p-2">
-				Opis
-			</th>
-			<th class="p-2">
-				Cena
-			</th>
-			<th class="p-2">
-				Akcje
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var entry in Model)
-		{
-			<tr>
-				<td class="p-2">
-					@entry.Title
-				</td>
-				<td class="p-2">
-					@entry.Description
-				</td>
-				<td class="p-2">
-					@entry.BasePrice
-				</td>
-				<td class="p-2">
-					<a class="btn btn-danger" asp-action="edit" asp-route-id="@entry.Id">Edit</a>
-				</td>
-			</tr>
-		}
-	</tbody>
-</table>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Procedury</h1>
+        <a asp-action="New" class="btn btn-success">Dodaj procedurę</a>
+    </div>
+
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+				<th class="p-3">Procedura</th>
+				<th class="p-3">Opis</th>
+				<th class="p-3">Cena</th>
+                <th class="p-3">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var proc in Model)
+            {
+                <tr>
+                    <td class="p-3">
+                        <strong>@proc.Title</strong>
+                    </td>
+                    <td class="p-3">
+                        <span class="text-muted">@proc.Description</span>
+                    </td>
+					 <td class="p-3">
+                        <span class="text-muted">@proc.BasePrice</span>
+                    </td>
+                    <td class="p-3">
+                        <a asp-action="Edit" asp-route-id="@proc.Id" class="btn btn-sm btn-primary me-2">Zmień</a>
+                        <a asp-action="Remove" asp-route-id="@proc.Id" class="btn btn-sm btn-danger" onclick="return confirm('Czy na pewno chcesz usunąć tego procedurę?');">Usuń</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

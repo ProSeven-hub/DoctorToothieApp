@@ -7,22 +7,48 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System.Text.Encodings.Web;
+using System.Text;
 
 namespace DoctorToothieApp.Controllers;
 
-public class DoctorsNewVM
+public class CreateDoctorViewModel
 {
-    [ValidateNever]
-    public IList<SelectListItem> Users { get; set; } = [];
+    [Required]
+    [EmailAddress]
+    [Display(Name = "Email")]
+    public string Email { get; set; }
+
+    [Required]
+    [StringLength(100, ErrorMessage = "{0} musi mieć conajmniej {2} i maksymalnie {1} znaków długości.", MinimumLength = 3)]
+    [DataType(DataType.Text)]
+    [Display(Name = "Imie")]
+    public string FirstName { get; set; }
+
+    [Required]
+    [StringLength(100, ErrorMessage = "{0} musi mieć conajmniej {2} i maksymalnie {1} znaków długości.", MinimumLength = 3)]
+    [DataType(DataType.Text)]
+    [Display(Name = "Nazwisko")]
+    public string LastName { get; set; }
+
+    /// <summary>
+    ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+    ///     directly from your code. This API may change or be removed in future releases.
+    /// </summary>
+    [Required]
+    [StringLength(100, ErrorMessage = "{0} musi mieć conajmniej {2} i maksymalnie {1} znaków długości.", MinimumLength = 6)]
+    [DataType(DataType.Password)]
+    [Display(Name = "Hasło")]
+    public string Password { get; set; }
+
 
     [ValidateNever]
     public IList<SelectListItem> Locations { get; set; } = [];
-
-
-    [Required(ErrorMessage = "Pole {0} jest puste")]
-    [DisplayName("Doktor")]
-    public string? DoctorId { get; set; }
-
 
     [Required(ErrorMessage = "Pole {0} jest puste")]
     [DisplayName("Lokalizacja")]
@@ -48,9 +74,10 @@ public class DoctorsEditVM
 
 
 }
-
+[Authorize(Roles = "Admin")]
 public class DoctorsController(IDbContext context, UserManager<AppUser> userManager) : Controller
 {
+
     public async Task<IActionResult> Index()
     {
         var doctors = await context.Users.Include(e => e.EmployeedLocation).Where(e => e.EmployeedLocationId != null).ToListAsync();
@@ -92,33 +119,58 @@ public class DoctorsController(IDbContext context, UserManager<AppUser> userMana
 
     public async Task<IActionResult> New()
     {
-        return View(new DoctorsNewVM
+        return View(new CreateDoctorViewModel
         {
-            Locations = await GetLocations(),
-            Users = await GetUsers(),
+            Locations = await GetLocations()
+            
         });
+    }
+    private AppUser CreateUser()
+    {
+        try
+        {
+            return Activator.CreateInstance<AppUser>();
+        }
+        catch
+        {
+            throw new InvalidOperationException($"Can't create an instance of '{nameof(User)}'. " +
+                $"Ensure that '{nameof(User)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
+        }
     }
 
     [HttpPost]
-    public async Task<IActionResult> New(DoctorsNewVM vm)
+    public async Task<IActionResult> New(CreateDoctorViewModel vm)
     {
-        if(!ModelState.IsValid)
+        vm.Locations = await GetLocations();
+        if (ModelState.IsValid)
         {
-            return View(new DoctorsNewVM
+            var user = CreateUser();
+            user.FirstName = vm.FirstName;
+            user.LastName = vm.LastName;
+            user.UserName = vm.Email;
+            
+
+            var result = await userManager.CreateAsync(user, vm.Password);
+            await userManager.AddToRoleAsync(user, "Doctor");
+
+            if (!result.Succeeded)
             {
-                DoctorId = vm.DoctorId,
-                LocationId = vm.LocationId,
-                Locations = await GetLocations(),
-                Users = await GetUsers(),
-            });
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View(vm);
+            }
+            var userId = await userManager.GetUserIdAsync(user);
+            var doctor = await context.Users.SingleAsync(e => e.Id == userId);
+            doctor.EmployeedLocationId = vm.LocationId;
+            await context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        var doctor = await userManager.FindByIdAsync(vm.DoctorId);
-        doctor.EmployeedLocationId = vm.LocationId;
-        await userManager.AddToRoleAsync(doctor, "Doctor");
+        return View(vm);
 
-
-        return RedirectToAction(nameof(Index));
     }
 
     public async Task<IActionResult> Edit(string id)
@@ -166,16 +218,4 @@ public class DoctorsController(IDbContext context, UserManager<AppUser> userMana
         return RedirectToAction(nameof(Index));
     }
 
-
-    public async Task<IActionResult> FixRoles()
-    {
-        var doctors = await userManager.Users.Where(e => e.EmployeedLocationId != null).ToListAsync();
-
-        foreach (var doctor in doctors)
-        {
-            await userManager.AddToRoleAsync(doctor, "Doctor");
-        }
-
-        return RedirectToAction(nameof(Index));
-    }
 }

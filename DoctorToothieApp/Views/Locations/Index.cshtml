@@ -1,0 +1,68 @@
+﻿@model IEnumerable<DoctorToothieApp.Persistence.Models.Location>
+
+@{
+    ViewData["Title"] = "Lokacje";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Lokacje</h1>
+        <a asp-action="Create" class="btn btn-success">Dodaj lokację</a>
+    </div>
+
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th class="p-3">Nazwa</th>
+                <th class="p-3">Adres</th>
+                <th class="p-3">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var loc in Model)
+            {
+                <tr>
+                    <td class="p-3"><strong>@loc.Name</strong></td>
+                    <td class="p-3 text-muted">@loc.Address</td>
+                    <td class="p-3">
+                        <a asp-action="Edit" asp-route-id="@loc.Id" class="btn btn-sm btn-primary me-2">Edytuj</a>
+                        <a asp-action="Remove" asp-route-id="@loc.Id" class="btn btn-sm btn-danger" onclick="return confirm('Czy na pewno chcesz usunąć tę lokację?');">Usuń</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="p-3">
+                        <a class="btn btn-outline-secondary btn-sm" data-bs-toggle="collapse" href="#collapseRooms-@loc.Id" role="button" aria-expanded="false" aria-controls="collapseRooms-@loc.Id">
+                            Pokaż / Ukryj pokoje
+                        </a>
+                        <div class="collapse mt-3" id="collapseRooms-@loc.Id">
+                            @if (loc.Rooms != null && loc.Rooms.Any())
+                            {
+                                <ul class="list-group mb-3">
+                                    @foreach (var room in loc.Rooms)
+                                    {
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Pokój: @room.Number
+                                            <form asp-action="DeleteRoom" asp-route-id="@room.Id" method="post" class="m-0" onsubmit="return confirm('Usunąć pokój?');">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Usuń</button>
+                                            </form>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <div class="text-muted mb-3">Brak pokoi przypisanych do tej lokacji.</div>
+                            }
+
+                            <form asp-action="AddRoom" method="post" class="d-flex gap-2 align-items-center">
+                                <input type="hidden" name="LocationId" value="@loc.Id" />
+                                <input type="text" name="Number" class="form-control w-50" placeholder="Numer pokoju" required />
+                                <button type="submit" class="btn btn-sm btn-success">Dodaj pokój</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
