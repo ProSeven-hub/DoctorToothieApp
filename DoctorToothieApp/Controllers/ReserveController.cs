@@ -413,7 +413,7 @@ public class ReserveController(IDbContext context) : Controller
         list.AddRange(await context.ProcedureTypes.Select(e => new SelectListItem
         {
             Value = e.Id.ToString(),
-            Text = $"{e.Description} - {e.BasePrice}"
+            Text = $"{e.Title} - {e.BasePrice}"
         }).ToListAsync());
 
         vm ??= new ReserveProcedureVM
