@@ -12,7 +12,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-body p-4">
+                               <div class="card-body p-4">
                     <p class="lead">
                         Korzystaj z naszego dynamicznego systemu rezerwacji, aby zarezerwować wizytę w jednej z naszych lokalizacji.
                         Wybierz preferowany <strong>pokój</strong>, <strong>lekarza</strong>, <strong>termin</strong> oraz zapoznaj się z <strong>przewidywanym kosztem zabiegu</strong>.
@@ -24,13 +24,24 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <div class="text-center mt-4">
-                            <a href="/Reserve" class="btn btn-primary btn-lg">Zarezerwuj wizytę</a>
+                            @if (User.IsInRole("User"))
+                            {
+                                <a href="/Reserve" class="btn btn-primary btn-lg">Zarezerwuj wizytę</a>
+                            }
+                            else if (User.IsInRole("Doctor"))
+                            {
+                                <a href="/Appointments" class="btn btn-primary btn-lg">Moje wizyty</a>
+                            }
+                            else if (User.IsInRole("Admin"))
+                            {
+                                <a href="/Doctors" class="btn btn-primary btn-lg">Zarządzaj doktorami</a>
+                            }
                         </div>
                     }
                     else
                     {
                         <div class="alert alert-warning mt-4 text-center" role="alert">
-                            <strong>Uwaga!</strong> Musisz się <a href="/Identity/Account/Login">zalogować</a>, aby zarezerwować wizytę.
+                            <strong>Uwaga!</strong> Musisz się <a href="/Identity/Account/Login">zalogować</a>, aby kontynuować.
                         </div>
                     }
                 </div>
